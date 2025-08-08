@@ -10,3 +10,9 @@ bukaUndangan.addEventListener("click", function () {
     window.location.href = "core.html";
   }, 900);
 });
+
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const untuk = urlParams.get('untuk');
+
+document.getElementById("nama-tamu").textContent = untuk || "Tamu Undangan";
