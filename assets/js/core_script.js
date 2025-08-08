@@ -131,7 +131,48 @@ form.addEventListener("submit", async function (e) {
 
       console.log("Success!", response);
 
-      location.reload();
+      submittedDataDiv.innerHTML = "<p>Loading...</p>";
+
+      (async () => {
+        const res = await fetch(
+          "https://script.google.com/macros/s/AKfycbywt1pcoD1jcTOzJeJOM_Ng2kHpVavBge2anNYE5XFElAV-RttfGLZBV882qtIklF4uwg/exec"
+        );
+        const result = await res.json();
+
+        let html = "";
+
+        for (let i = 0; i < result.length; i++) {
+          html += `
+            <div class="submitted-item">
+                <h3>${result[i].nama} (${
+            result[i].kehadiran === "yes"
+              ? "Hadir"
+              : result[i].kehadiran === "no"
+              ? "Tidak Hadir"
+              : "?"
+          })</h3>
+                <p>${result[i].ucapan}</p>
+            </div>
+          `;
+
+          //   const newItem = document.createElement("div");
+          //   newItem.classList.add("submitted-item");
+
+          //   newItem.innerHTML = `
+          //   <h3>${result[i].nama} (${result[i].kehadiran})</h3>
+          //   <p>${result[i].ucapan}</p>
+          // `;
+
+          //   submittedDataDiv.appendChild(newItem);
+        }
+
+        submittedDataDiv.innerHTML = html;
+        submittedDataDiv.scrollTo({
+          left: 0,
+          top: -submittedDataDiv.scrollHeight,
+          behavior: "instant",
+        });
+      })();
     })
     .catch((error) => {
       ngirim = false;
